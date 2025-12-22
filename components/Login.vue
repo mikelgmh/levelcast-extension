@@ -21,12 +21,10 @@ const handleLogin = async () => {
         }, {
             onSuccess: async () => {
                 console.log("Login successful");
-                // Emit event to parent to refresh session
                 emit('login-success');
             },
             onError: (ctx) => {
                 console.error("Login error context:", ctx);
-                // Intenta mostrar más detalles si 'message' es genérico
                 const detail = ctx.error.status ? ` (${ctx.error.status})` : '';
                 error.value = (ctx.error.message || 'Login failed') + detail;
             }
@@ -38,7 +36,6 @@ const handleLogin = async () => {
         }
     } catch (e: any) {
         console.error("Unexpected login error:", e);
-        // Mostrar el error completo si es posible
         error.value = e.message || JSON.stringify(e) || 'An unexpected error occurred.';
     } finally {
         loading.value = false;
@@ -47,111 +44,35 @@ const handleLogin = async () => {
 </script>
 
 <template>
-    <div class="login-container">
-        <h2>Login to Levelcast</h2>
-        <form @submit.prevent="handleLogin">
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" v-model="email" required />
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" v-model="password" required />
-            </div>
-            <button type="submit" :disabled="loading" class="login-btn">
-                <span v-if="loading" class="loader"></span>
-                <span v-else>Login</span>
+    <div class="p-6 flex flex-col justify-center h-full">
+        <h2 class="text-xl font-bold text-slate-900 mb-1">Bienvenido</h2>
+        <p class="text-xs text-slate-500 mb-6">Inicia sesión para ver tus datos rápidos.</p>
+        <form @submit.prevent="handleLogin" class="space-y-3">
+            <input 
+                type="email" 
+                placeholder="Email" 
+                v-model="email" 
+                required
+                class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 outline-none" 
+            />
+            <input 
+                type="password" 
+                placeholder="Contraseña" 
+                v-model="password" 
+                required
+                class="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-teal-500 outline-none" 
+            />
+            <button 
+                type="submit" 
+                :disabled="loading"
+                class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 rounded-lg text-sm transition-colors mt-2 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+            >
+                <span v-if="loading" class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full mr-2"></span>
+                Iniciar Sesión
             </button>
-            <div v-if="error" class="error-alert">
+            <div v-if="error" class="text-xs text-red-500 mt-2">
                 {{ error }}
             </div>
         </form>
     </div>
 </template>
-
-<style scoped>
-.login-container {
-    padding: 20px;
-    max-width: 300px;
-    margin: 0 auto;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
-}
-
-.login-btn {
-    width: 100%;
-    padding: 12px;
-    background-color: #42b883;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    transition: background-color 0.2s;
-}
-
-.login-btn:hover:not(:disabled) {
-    background-color: #3aa876;
-}
-
-.login-btn:disabled {
-    background-color: #a8dcc5;
-    cursor: not-allowed;
-}
-
-.error-alert {
-    background-color: #ffebee;
-    color: #c62828;
-    padding: 10px;
-    border-radius: 6px;
-    margin-top: 15px;
-    font-size: 0.9em;
-    border: 1px solid #ef9a9a;
-}
-
-.loader {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #ffffff;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-    background-color: #ccc;
-}
-
-.error {
-    color: red;
-    margin-top: 10px;
-}
-</style>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { authClient } from '@/utils/auth';
+import { LayoutDashboard, HelpCircle, LogOut } from 'lucide-vue-next';
 
 defineProps<{
     user: {
@@ -15,81 +16,35 @@ const emit = defineEmits<{
 
 const handleSignOut = async () => {
     await authClient.signOut();
-    // Emit event to parent to clear session
     emit('sign-out');
 };
 </script>
 
 <template>
-    <div class="profile-container">
-        <h2>Welcome back!</h2>
-        
-        <div class="user-info">
-            <img v-if="user.image" :src="user.image" alt="User Avatar" class="avatar" />
-            <div class="details">
-                <p class="name">{{ user.name || 'User' }}</p>
-                <p class="email">{{ user.email }}</p>
+    <div class="p-6">
+        <div class="flex items-center gap-3 mb-6">
+            <div v-if="user.image" class="w-12 h-12 rounded-full overflow-hidden">
+                <img :src="user.image" alt="User Avatar" class="w-full h-full object-cover" />
+            </div>
+            <div v-else class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-xl">
+                {{ user.name ? user.name.substring(0, 2).toUpperCase() : 'JD' }}
+            </div>
+            <div>
+                <p class="font-bold text-slate-900">{{ user.name || 'User' }}</p>
+                <p class="text-xs text-slate-500">{{ user.email }}</p>
             </div>
         </div>
-
-        <button @click="handleSignOut" class="sign-out-btn">
-            Sign Out
-        </button>
+        
+        <div class="space-y-2">
+            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 transition-all text-sm text-slate-700">
+                <LayoutDashboard :size="16"/> Ir al Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 transition-all text-sm text-slate-700">
+                <HelpCircle :size="16"/> Soporte y Ayuda
+            </a>
+            <button @click="handleSignOut" class="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 hover:text-red-600 border border-transparent transition-all text-sm text-slate-700 text-left cursor-pointer">
+                <LogOut :size="16"/> Cerrar Sesión
+            </button>
+        </div>
     </div>
 </template>
-
-<style scoped>
-.profile-container {
-    padding: 20px;
-    text-align: center;
-    min-width: 300px;
-}
-
-.user-info {
-    margin: 20px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #42b883;
-}
-
-.details {
-    text-align: center;
-}
-
-.name {
-    font-weight: bold;
-    font-size: 1.1em;
-    margin: 0;
-}
-
-.email {
-    color: #666;
-    font-size: 0.9em;
-    margin: 0;
-}
-
-.sign-out-btn {
-    background-color: #ff4444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    transition: background-color 0.2s;
-}
-
-.sign-out-btn:hover {
-    background-color: #cc0000;
-}
-</style>
