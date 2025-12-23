@@ -1,5 +1,5 @@
 {
-  "name": "levelcast Chrome Extension",
+  "name": "levelcast-extension",
   "description": "Levelcast Browser Extension",
   "private": true,
   "version": "1.0.0",
