@@ -13,13 +13,6 @@
             }
         ],
         [
-            "@semantic-release/exec",
-            {
-                "prepareCmd": "bun run zip",
-                "publishCmd": "bun wxt submit --chrome-zip .output/levelcast-extension-${nextRelease.version}-chrome.zip"
-            }
-        ],
-        [
             "@semantic-release/git",
             {
                 "assets": [
