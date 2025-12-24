@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/mikelgmh/levelcast-extension/compare/v1.0.0...v1.1.0) (2025-12-24)
+
+
+### Features
+
+* add glucose badge, profile settings and fix CORS/crypto issues ([6047329](https://github.com/mikelgmh/levelcast-extension/commit/60473296a6e4ba8379c8ae6a2ba2bcba620edf1a))
+
 # 1.0.0 (2025-12-23)
 
 
