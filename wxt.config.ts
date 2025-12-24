@@ -1,6 +1,7 @@
 import { defineConfig } from 'wxt';
 import tailwindcss from '@tailwindcss/vite';
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 const packageJson = JSON.parse(readFileSync('./package.json', 'utf-8'));
 
@@ -16,6 +17,11 @@ export default defineConfig({
   },
   vite: () => ({
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        'librelinkup-api-client': resolve('node_modules/librelinkup-api-client/dist/index.js')
+      }
+    }
   }),
   dev: {
     server: {
