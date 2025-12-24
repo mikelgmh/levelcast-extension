@@ -23,7 +23,8 @@ export default defineConfig({
     permissions: ["storage"],
     host_permissions: [
       "https://api.levelcast.org/*",
-      "http://localhost:3000/*"
+      "http://localhost:3000/*",
+      "*://*.libreview.io/*"
     ]
   }
 });

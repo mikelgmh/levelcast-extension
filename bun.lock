@@ -6,6 +6,7 @@
       "name": "wxt-vue-starter",
       "dependencies": {
         "better-auth": "^1.4.7",
+        "librelinkup-api-client": "^1.0.2",
         "lucide-vue-next": "^0.562.0",
         "vue": "^3.5.25",
       },
@@ -785,6 +786,8 @@
     "kysely": ["kysely@0.28.9", "", {}, "sha512-3BeXMoiOhpOwu62CiVpO6lxfq4eS6KMYfQdMsN/2kUCRNuF2YiEr7u0HLHaQU+O4Xu8YXE3bHVkwaQ85i72EuA=="],
 
     "latest-version": ["latest-version@9.0.0", "", { "dependencies": { "package-json": "^10.0.0" } }, "sha512-7W0vV3rqv5tokqkBAFV1LbR7HPOWzXQDpDgEuib/aJ1jsZZx6x3c2mBI+TJhJzOhkGeaLbCKEHXEXLfirtG2JA=="],
+
+    "librelinkup-api-client": ["librelinkup-api-client@1.0.2", "", { "peerDependencies": { "typescript": "latest" } }, "sha512-m0NeJm7jLriwpwKhKKlO9CQCSKJij4CTMguW09RMv24epkLsA5wwt0Q3cBWVHIJZpfjMwFwHzhXgkW2rRPuYmw=="],
 
     "lie": ["lie@3.3.0", "", { "dependencies": { "immediate": "~3.0.5" } }, "sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ=="],
 
