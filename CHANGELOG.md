@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/mikelgmh/levelcast-extension/compare/v1.1.0...v1.2.0) (2025-12-24)
+
+
+### Features
+
+* Broadcast reading to all user frames ([e971471](https://github.com/mikelgmh/levelcast-extension/commit/e97147122247f2e60f0efd497f0f04aa15e66125))
+
 # [1.1.0](https://github.com/mikelgmh/levelcast-extension/compare/v1.0.0...v1.1.0) (2025-12-24)
 
 
