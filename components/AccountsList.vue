@@ -3,10 +3,12 @@ import { onMounted, computed, ref, onUnmounted } from 'vue';
 import { AlertTriangle, Loader2, XCircle, MoreHorizontal, ArrowRight, Plus } from 'lucide-vue-next';
 import { useLibreLinkAccounts } from '../utils/libreLinkAccounts';
 import { readingsStorage } from '../utils/glucoseMonitor';
+import { browser } from 'wxt/browser';
 
 const { accounts, loading, error, fetchAccounts } = useLibreLinkAccounts();
 const readings = ref<Record<string, any>>({});
 let unwatch: any;
+let runtimeListener: any = null;
 
 onMounted(async () => {
     fetchAccounts();
@@ -14,10 +16,35 @@ onMounted(async () => {
     unwatch = readingsStorage.watch((newValue) => {
         readings.value = newValue || {};
     });
+
+    // Listen for background websocket events forwarded via runtime
+    runtimeListener = (message: any) => {
+        try {
+            if (!message || !message.type) return;
+            if (message.type === 'libreLinkAccount_event') {
+                // Refresh account list on relevant account events
+                void fetchAccounts();
+            }
+
+            if (message.type === 'webhook_log_added') {
+                // Forward as window event for UI components that may be listening
+                window.dispatchEvent(new CustomEvent('webhook_log_added', { detail: message }));
+            }
+
+            if (message.type === 'webhook_log_deleted') {
+                window.dispatchEvent(new CustomEvent('webhook_log_deleted', { detail: message }));
+            }
+        } catch (e) {
+            console.error('Error handling runtime message in AccountsList:', e);
+        }
+    };
+
+    browser.runtime.onMessage.addListener(runtimeListener);
 });
 
 onUnmounted(() => {
     if (unwatch) unwatch();
+    if (runtimeListener) browser.runtime.onMessage.removeListener(runtimeListener);
 });
 
 const getTrendClass = (trend: number) => {
