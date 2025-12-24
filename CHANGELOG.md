@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/mikelgmh/levelcast-extension/compare/v1.2.0...v1.2.1) (2025-12-24)
+
+
+### Bug Fixes
+
+* sync manifest version with package.json ([0fa0b7a](https://github.com/mikelgmh/levelcast-extension/commit/0fa0b7ac4bdc45901399ecb587a003179dac675b))
+
 # [1.2.0](https://github.com/mikelgmh/levelcast-extension/compare/v1.1.0...v1.2.0) (2025-12-24)
 
 
