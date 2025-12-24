@@ -19,6 +19,7 @@ export const badgeSettings = storage.defineItem<{
 
 class GlucoseMonitor {
     private clients: Map<string, LibreLinkClient> = new Map();
+    private accountEmails: Map<string, string> = new Map();
     private isRunning = false;
     private queue: string[] = [];
     private processing = false;
@@ -42,6 +43,7 @@ class GlucoseMonitor {
     async initializeClients() {
         const credentials = await fetchCredentialsMap();
         for (const [accountId, creds] of credentials) {
+            this.accountEmails.set(accountId, creds.email);
             if (!this.clients.has(accountId)) {
                 try {
                     const client = new LibreLinkClient({
@@ -147,6 +149,22 @@ class GlucoseMonitor {
         };
         await readingsStorage.setValue(currentReadings);
         console.log(`Saved reading for ${accountId}`, reading);
+
+        // Send to API
+        const email = this.accountEmails.get(accountId);
+        if (email) {
+            try {
+                await fetch('http://localhost:3000/api/v1/libreLinkAccounts/reading', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, reading })
+                });
+            } catch (e) {
+                console.error("Failed to send reading to API:", e);
+            }
+        }
 
         await this.updateBadge(accountId, reading);
     }
