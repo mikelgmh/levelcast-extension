@@ -1,5 +1,8 @@
 import { defineConfig } from 'wxt';
 import tailwindcss from '@tailwindcss/vite';
+import { readFileSync } from 'node:fs';
+
+const packageJson = JSON.parse(readFileSync('./package.json', 'utf-8'));
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -20,6 +23,7 @@ export default defineConfig({
     }
   },
   manifest: {
+    version: packageJson.version,
     permissions: ["storage"],
     host_permissions: [
       "https://api.levelcast.org/*",
