@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/mikelgmh/levelcast-extension/compare/v1.2.2...v1.3.0) (2025-12-24)
+
+
+### Features
+
+* **ws:** connect extension background to API websockets and refresh accounts on events ([ee0536c](https://github.com/mikelgmh/levelcast-extension/commit/ee0536c62d9ce86d8f4b5641ea800c5e0afac893))
+
 ## [1.2.2](https://github.com/mikelgmh/levelcast-extension/compare/v1.2.1...v1.2.2) (2025-12-24)
 
 
