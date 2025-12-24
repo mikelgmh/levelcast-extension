@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/mikelgmh/levelcast-extension/compare/v1.2.1...v1.2.2) (2025-12-24)
+
+
+### Bug Fixes
+
+* add alias for librelinkup-api-client resolution ([4abb8cc](https://github.com/mikelgmh/levelcast-extension/commit/4abb8ccc652163c64ad4b52af06e4c37c95cc6f7))
+
 ## [1.2.1](https://github.com/mikelgmh/levelcast-extension/compare/v1.2.0...v1.2.1) (2025-12-24)
 
 
