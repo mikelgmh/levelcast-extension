@@ -41,6 +41,8 @@ watch(settings, async (newSettings) => {
 
 const handleSignOut = async () => {
     await authClient.signOut();
+    // Manual cleanup as fallback to ensure session is cleared
+    await browser.storage.local.remove(['better-auth.session_token', 'better-auth.session_data']);
     emit('sign-out');
 };
 </script>

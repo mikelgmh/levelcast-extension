@@ -91,6 +91,10 @@ const displayAccounts = computed(() => {
                 }
             }
         }
+
+        if (val === '--' && status !== 'error') {
+            status = 'loading';
+        }
         
         return {
             id: acc.id,

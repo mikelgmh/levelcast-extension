@@ -1,31 +1,21 @@
 import { createAuthClient } from "better-auth/vue"
+import { browser } from "wxt/browser";
 
 const isChromeExtension = typeof chrome !== 'undefined' && chrome.storage;
 
 const chromeStorage = isChromeExtension ? {
     get: async (key: string) => {
-        return new Promise((resolve) => {
-            chrome.storage.local.get([key], (result) => {
-                console.log('chromeStorage get', key, result);
-                resolve(result[key] || null);
-            });
-        });
+        const result = await browser.storage.local.get(key);
+        console.log('chromeStorage get', key, result);
+        return result[key] || null;
     },
     set: async (key: string, value: any) => {
-        return new Promise((resolve) => {
-            chrome.storage.local.set({ [key]: value }, () => {
-                console.log('chromeStorage set', key, value);
-                resolve();
-            });
-        });
+        await browser.storage.local.set({ [key]: value });
+        console.log('chromeStorage set', key, value);
     },
     remove: async (key: string) => {
-        return new Promise((resolve) => {
-            chrome.storage.local.remove([key], () => {
-                console.log('chromeStorage remove', key);
-                resolve();
-            });
-        });
+        await browser.storage.local.remove(key);
+        console.log('chromeStorage remove', key);
     },
 } : {
     get: async (key: string) => {

@@ -17,6 +17,10 @@ export const badgeSettings = storage.defineItem<{
     },
 });
 
+export const authTokensStorage = storage.defineItem<Record<string, { token: string, patientId: string | null }>>('local:authTokens', {
+    defaultValue: {},
+});
+
 class GlucoseMonitor {
     private clients: Map<string, LibreLinkClient> = new Map();
     private accountEmails: Map<string, string> = new Map();
@@ -42,6 +46,8 @@ class GlucoseMonitor {
 
     async initializeClients() {
         const credentials = await fetchCredentialsMap();
+        const storedTokens = await authTokensStorage.getValue();
+
         for (const [accountId, creds] of credentials) {
             this.accountEmails.set(accountId, creds.email);
             if (!this.clients.has(accountId)) {
@@ -51,6 +57,17 @@ class GlucoseMonitor {
                         password: creds.password,
                         lluVersion: '4.16.0'
                     });
+
+                    // Restore session if available
+                    if (storedTokens[accountId]) {
+                        const { token, patientId } = storedTokens[accountId];
+                        if (token) {
+                            (client as any).accessToken = token;
+                            if (patientId) (client as any).patientId = patientId;
+                            console.log(`Restored session for ${accountId}`);
+                        }
+                    }
+
                     this.clients.set(accountId, client);
                 } catch (e) {
                     console.error(`Failed to initialize client for ${accountId}`, e);
@@ -127,6 +144,17 @@ class GlucoseMonitor {
                 if (msg.includes('jwt') || msg.includes('unauthorized') || msg.includes('token') || msg.includes('401')) {
                     console.log(`Authenticating ${accountId}...`);
                     await client.login();
+                    
+                    // Save new session
+                    const token = (client as any).accessToken;
+                    const patientId = (client as any).patientId;
+                    if (token) {
+                        const tokens = await authTokensStorage.getValue();
+                        tokens[accountId] = { token, patientId };
+                        await authTokensStorage.setValue(tokens);
+                        console.log(`Saved new session for ${accountId}`);
+                    }
+
                     const reading = await client.read();
                     await this.saveReading(accountId, reading);
                 } else {
